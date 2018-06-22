@@ -19,7 +19,7 @@ header div{display: inline-block; }
 #main_heder:hover{cursor: pointer;}
 
 .logo{
-    background-image:url(icon/airplane.svg);
+    background-image:url(../icon/airplane.svg);
     width: 75px;
     height: 75px;
     background-size: cover;
@@ -164,10 +164,8 @@ header div{display: inline-block; }
     width: 60%;
     height: 300px;
     background-repeat: repeat;
-    background-position: 50% 0px;
-    background-position: center;
-    background-size: cover;
-    
+    background-position: 50% 0px center;
+    background-size: cover;    
     animation-name: slide;
     animation-duration: 30s;
     animation-iteration-count: infinite;
@@ -215,18 +213,7 @@ header div{display: inline-block; }
     background-position: center;
     background-size: cover;
 }
-#b ul li:nth-child(1){
-    background-image: url(img/Barcelona.png);
-}
-#b ul li:nth-child(2){
-    background-image: url(img/venice.jpg);
-}
-#b ul li:nth-child(3){
-    background-image: url(img/santo.jpg);
-}
-#b ul li:nth-child(4){
-    background-image: url(img/pairs.png);
-}
+
 section input {
     cursor: pointer;
     position: fixed;
@@ -238,7 +225,7 @@ section input {
     position: relative;
     left: 50%;
     transform: translate(-60%,0);
-    color:#3b4050;
+    color:#8a8da2;
     font-weight: bolder;
     font-size: 1em;
     z-index: 1;
@@ -318,7 +305,6 @@ section input {
 }
 
 #v_icon #icon2{
-    
     width: 100%;
     text-align: right;
 }
@@ -363,25 +349,23 @@ section input {
 #v_m .v_li_r {
     float: right;
     cursor: pointer;
-
-
 }
 
 /* 리스트 좋아요 및 아이콘_*/
 #v_m .v_share{
-    background-image: url(icon/share-post-symbol.png);
+    background-image: url(../icon/share-post-symbol.png);
     float: right;
     position: relative;
     right: 0;
     margin-right: 10px;
 }
 #v_m .v_heart{
-    background-image: url(icon/heart.png);
+    background-image: url(../icon/heart.png);
     transform: translateX(15px);
 }
 
 #v_m .v_thumb{
-    background-image: url(icon/thumb-up.png);
+    background-image: url(../icon/thumb-up.png);
     transform: translateX(15px);
 }
 
@@ -440,9 +424,7 @@ span {
 
 #l div{ display: inline-block; }
 
-#l ul{
-    list-style: none;
-}
+#l ul{list-style: none;}
 
 .l_list{
     width: 25%;
@@ -500,19 +482,19 @@ span {
   text-align: center;
 }
 
+.text_img {
+  background-color: aliceblue;
+  color: #808080;
+  font-size: 16px;
+  padding: 16px 32px;
+}
+
 .container_img:hover .pick_img {
   opacity: 0.3;
 }
 
-.container_img:hover .middle_img {
+ .container_img:hover .middle_img {
   opacity: 1;
-}
-
-.text_img {
-  background-color: aliceblue;
-  color: black;
-  font-size: 16px;
-  padding: 16px 32px;
 }
 
 
@@ -520,25 +502,7 @@ span {
 
 /************page************/
 
-/*barcelona*/
-.bar{
-    height: 100vh;
-    background-size: cover;
-    background-attachment: fixed;
-    background-position: center;
-}
-#bar_1{
-    background-image: url(img/barcelona/casaba.jpg);
-}
-#bar_2{
-    background-image: url(img/barcelona/casami.jpg);
-}
-#bar_3{
-    background-image: url(img/barcelona/parkgu.jpg);
-}
-#bar_4{
-    background-image: url(img/barcelona/Sagrada.jpg);
-}
+/*sub_menu  관련 css*/
 article{
     display: inline-block;
     position: relative;
@@ -549,23 +513,16 @@ article{
     transform: translateX(-50%) translateY(-50%);
     text-align: center;
 }
+
+.bar{
+    height: 100vh;
+    background-size: cover;
+    background-attachment: fixed;
+    background-position: center;
+}
+
 .bar h1{
     font-size: 2em;   
-}
-
-/*london*/
-
-#lon_1{
-    background-image: url(img/london/towerbridge.jpg);
-}
-#lon_2{
-    background-image: url(img/london/buckinghampalace.jpg);
-}
-#lon_3{
-    background-image: url(img/london/bigben.jpg);
-}
-#lon_4{
-    background-image: url(img/london/londoneye.jpg);
 }
 
 #before_button {
@@ -613,15 +570,15 @@ footer .co_icon:hover{
 }
 
 footer #face{
-    background-image: url(icon/facebook.svg);
+    background-image: url(../icon/facebook.svg);
 }
 footer #twitt{
-    background-image: url(icon/twitter.svg);
+    background-image: url(../icon/twitter.svg);
 }
 footer #insta{
-    background-image: url(icon/instagram.svg);
+    background-image: url(../icon/instagram.svg);
 }
 footer #whats{
-    background-image: url(icon/whatsapp.svg); 
+    background-image: url(../whatsapp.svg); 
 }
 

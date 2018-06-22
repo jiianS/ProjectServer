@@ -1,0 +1,12 @@
+html, body{margin: 0 7%; }
+
+input {
+	padding: 5px;
+	margin: 5px 0;
+}
+
+#submit {
+	width: 185px;
+}
+
+div {left : 50%;}

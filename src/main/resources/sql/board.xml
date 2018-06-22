@@ -3,77 +3,109 @@
   PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
   "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="board">
-	<insert id="boardInsert" parameterType="HashMap">
-		insert into board 
-			(boardTitle, boardContents, userNo, regDate)
-		values
-			(#{boardTitle}, #{boardContents}, #{userNo}, DATE_FORMAT(NOW(),'%Y%m%d'))
-	</insert>
-	
-	<select id="getBoardNo" resultType="Integer">
-		select 
-				case when max(boardNo) > 0 then max(boardNo)
-				     else 1
-			   end as boardNo
-		  from board
+
+
+	<select id="fileList" parameterType="HashMap"
+		resultType="HashMap">
+		select * from files where delYn = 'N'
 	</select>
 	
-	<insert id="fileInsert" parameterType="HashMap">
-		insert into files 
-			(boardNo, fileName, fileURL, userNo, regDate)
-		values
-			(#{boardNo}, #{fileName}, #{fileURL}, #{userNo}, DATE_FORMAT(NOW(),'%Y%m%d'))
-	</insert>
-	
-	<insert id="fileInsert2" parameterType="HashMap">
-		<selectKey keyProperty="boardNo" resultType="Integer" order="BEFORE">
-			select 
-				case when max(boardNo) > 0 then max(boardNo)
-				     else 1
-			   end as boardNo
-		  from board
-		</selectKey>
-		insert into files 
-			(boardNo, fileName, fileURL, userNo, regDate)
-		values
-			(#{boardNo}, #{fileName}, #{fileURL}, #{userNo}, DATE_FORMAT(NOW(),'%Y%m%d'))
-	</insert>
-	
-	<select id="boardOne" parameterType="HashMap" resultType="HashMap">
-		select * from board where boardNo = #{boardNo}
-	</select>
-	
-	<select id="filesList" parameterType="HashMap" resultType="HashMap">
-		select * from files where delYn = 'N' and boardNo = #{boardNo}
-	</select>
-	
-	<select id="boardList" resultType="HashMap">
+	<select id="boardList" parameterType="HashMap"
+		resultType="HashMap">
 		select * from board where delYn = 'N'
 	</select>
+
+	<select id="boardOne" parameterType="HashMap"
+		resultType="HashMap">
+		select * from board where boardID = #{boardID}
+	</select>
+
+	<select id="fileOne" parameterType="HashMap"
+		resultType="HashMap">
+		select * from files where delYn = 'N' and
+		files.fileNo in (
+		select fileNo from board where boardID = #{boardID})
+	</select>
+
+
+	<!-- 매덩's pick (boardList) -->
+	<select id="selectTypeList" parameterType="HashMap"
+		resultType="HashMap">
+		select * from files inner join board on files.fileNo =
+		board.fileNo
+		where board.boardType =#{boardType} 
+	</select>
 	
+	
+	
+
+	<!-- subPage -->
+
+	<select id="selectSub" parameterType="HashMap"
+		resultType="HashMap">
+		select * from files inner join board on files.fileNo =
+		board.fileNo
+		where board.boardType =#{boardType} 
+	</select>
+		
+
+	<!-- slideYn/ btnYn -->
+	
+	<select id="selectSBL" resultType="HashMap">
+		select * from files,SB
+		where
+		files.fileNo=SB.fileNo and files.fileNo in (select fileNo from SB);
+	</select>
+
+	<select id="selectSBLOne" resultType="HashMap" parameterType="HashMap">
+		select * from files 
+		where fileNo =#{fileNo} 
+	</select>
+
+
+	<insert id="fileInsert" parameterType="HashMap">
+		insert into files
+		(fileName, fileURL, regDate)
+		values
+		(#{fileName}, #{fileURL},
+		DATE_FORMAT(NOW(),'%Y%m%d'))
+	</insert>
+
+
+
+	<!-- 글 수정 -->
+
 	<update id="boardUpdate" parameterType="HashMap">
 		update board
-		set boardTitle = #{boardTitle},
-			  boardContents = #{boardContents}
-		where boardNo = #{boardNo}
+		set
+		boardTitle = #{boardTitle},
+		boardContents = #{boardContents}
+		where
+		boardID = #{boardID}
 	</update>
-	
-	<update id="filesDel" parameterType="HashMap">
+
+	<update id="filesUpdate" parameterType="HashMap">
 		update files
-		set delYn = 'Y'
+		set 
+			fileName= #{fileName},
+			fileURL = #{fileURL},
+			regDate = DATE_FORMAT(NOW(),'%Y%m%d')
 		where fileNo = #{fileNo}
 	</update>
+
+
+	<select id="getFileNo" resultType="Integer">
+		select case when max(fileNo) > 0 then max(fileNo) else 1 end as fileNo
+		from files
+	</select>
 	
-	<update id="boardDel" parameterType="HashMap">
-		update board
-		set delYn = 'Y'
-		where boardNo = #{boardNo}
-	</update>
+	<insert id="boardInsert" parameterType="HashMap">
+   insert into boards 
+      (boardTitle, boardContents, regDate, boardType, fileNo)
+   values
+      (#{boardTitle},#{boardContents},DATE_FORMAT(NOW(),'%Y%m%d'),#{boardType}, #{fileNo});
+  </insert>
 	
-	<update id="filesBoardDel" parameterType="HashMap">
-		update files
-		set delYn = 'Y'
-		where boardNo = #{boardNo}
-	</update>
+	
 	
 </mapper>
