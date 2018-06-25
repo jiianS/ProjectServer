@@ -12,42 +12,33 @@
 	
 	<select id="boardList" parameterType="HashMap"
 		resultType="HashMap">
-		select * from board where delYn = 'N'
+		select * from board2 where delYn = 'N'
 	</select>
 
 	<select id="boardOne" parameterType="HashMap"
 		resultType="HashMap">
-		select * from board where boardID = #{boardID}
+		select * from board2 where boardNo = #{boardNo}
 	</select>
 
 	<select id="fileOne" parameterType="HashMap"
 		resultType="HashMap">
 		select * from files where delYn = 'N' and
 		files.fileNo in (
-		select fileNo from board where boardID = #{boardID})
+		select fileNo from board2 where boardNo = #{boardNo})
 	</select>
 
 
-	<!-- 매덩's pick (boardList) -->
+	<!--boardList (subPage/detail(매덩's pick)-->
 	<select id="selectTypeList" parameterType="HashMap"
 		resultType="HashMap">
-		select * from files inner join board on files.fileNo =
-		board.fileNo
-		where board.boardType =#{boardType} 
+		select * from files,board2
+		where
+		files.fileNo=board2.fileNo and 
+		board2.fileNo in (select fileNo from board2 where boardType = #{boardType});
 	</select>
 	
 	
 	
-
-	<!-- subPage -->
-
-	<select id="selectSub" parameterType="HashMap"
-		resultType="HashMap">
-		select * from files inner join board on files.fileNo =
-		board.fileNo
-		where board.boardType =#{boardType} 
-	</select>
-		
 
 	<!-- slideYn/ btnYn -->
 	
@@ -76,12 +67,12 @@
 	<!-- 글 수정 -->
 
 	<update id="boardUpdate" parameterType="HashMap">
-		update board
+		update board2
 		set
 		boardTitle = #{boardTitle},
 		boardContents = #{boardContents}
 		where
-		boardID = #{boardID}
+		boardNo = #{boardNo}
 	</update>
 
 	<update id="filesUpdate" parameterType="HashMap">
@@ -93,19 +84,18 @@
 		where fileNo = #{fileNo}
 	</update>
 
-
+	<!-- insert했을 때 자동으로 생기는 fileNo값을 받아오기!?(마지막번호 가져오기  -->
 	<select id="getFileNo" resultType="Integer">
 		select case when max(fileNo) > 0 then max(fileNo) else 1 end as fileNo
 		from files
 	</select>
 	
 	<insert id="boardInsert" parameterType="HashMap">
-   insert into boards 
+   insert into board2
       (boardTitle, boardContents, regDate, boardType, fileNo)
    values
       (#{boardTitle},#{boardContents},DATE_FORMAT(NOW(),'%Y%m%d'),#{boardType}, #{fileNo});
   </insert>
-	
-	
+
 	
 </mapper>

@@ -142,11 +142,8 @@
             
             <li id="menu_site"><a href="#" >관리자모드</a> 
              <ul>
-                    <div></div>
-                     <li><a href="admin">관리자 로그인</a></li>
-                     <c:if test="${sessionScope.user.status == 1}">
-                    	 <li><a href="adList">게시판 관리</a></li>
-                   	</c:if>
+				<div></div>
+           			<li><a href="admin">관리자 페이지</a></li>
                 </ul>
             
             <li id="menu_site"><a href="#" >제휴사이트</a>
@@ -270,7 +267,7 @@
 	            </div>
 	    </section>
 	    
-	   <!--여행지 리스트(매덩's Pick)-->
+	 <!--여행지 리스트(매덩's Pick)-->
 	<section id="l">
         <div id="l_div1">  
           <span style="text-align: left;"><h1>매덩's Picks</h1></span>
@@ -296,10 +293,11 @@
                 전 세계 우리의 여행 사이트. 풍부한 정보.즐거운 여행    
             
              <div>
+            	
                 <div id="face"  class="co_icon"onclick="location.href='https://ko-kr.facebook.com/dingo.travel.kr/'"></div>
                 <div id="insta" class="co_icon" onclick="location.href='https://www.instagram.com/dingo_travel/'" ></div>
                 <div id="twitt" class="co_icon"onclick="location.href='https://twitter.com/myrealtrip'"></div>
-                <div id="whats" class="co_icon"></div>
+            
             </div>
             </h4>
             

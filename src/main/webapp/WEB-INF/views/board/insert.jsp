@@ -7,10 +7,11 @@
 <title>Insert</title>
 
 <style type="text/css">
-	input {	padding: 5px; margin: 5px 0; width: 400px;}
+	input,select {	padding: 5px; margin: 5px 0; width: 400px;}
 	#boardContents { height: 100px;}
 	#submit { width: 185px; }
 	textarea { width: 400px; height: 60px;}
+
 	
 </style>
 
@@ -19,7 +20,7 @@
 	$(document).ready(function(){
 		$("#form").submit(function(e) {
 			e.preventDefault();			
-			console.log("--------------");
+		
 			$.ajax({
 				type: "post",
 				url : "http://fileserver/FileUpload/jian",
@@ -37,7 +38,7 @@
 					data : {
 						"boardTitle" : $("#form input").eq(0).val(),
 						"boardContents" : $("#form textarea").eq(0).val(),
-						"boardType" : $("#form boardType").eq(1).val(),
+						"boardType" : $("#form select").eq(0).val(),
 						"data" : JSON.stringify(d.upload)
 					}
 				}).done(function(data) {
@@ -45,7 +46,7 @@
 					console.log("insert d : " + d);
                     alert(d.msg);
                     if(d.status == 1) {
-                        location.href="admin/allList";
+                        location.href="boardList";
                      }
 				});
 			});// ajax done
@@ -65,12 +66,12 @@
     <textarea type="text" name="boardContents" placeholder="내용 입력" ></textarea><br>
    
    <h3>board Type</h3>
-   <input list="browsers" name="browser" value=${param.i}>
-       <datalist id="browsers">
-	       <option value="detail" selected="selected">
-	       <option value="london">
-	       <option value="barcelona">
-     </datalist>
+    <select name="boardType">
+		<option value="detail">detail</option>
+		<option value="london">london</option>
+		<option value="barcelona">barcelona</option>
+	</select>
+	     
    <h3>첨부파일</h3>
     <input type="file" name="file" placeholder="사진"><br><br>
    <input type="submit" value="제출">

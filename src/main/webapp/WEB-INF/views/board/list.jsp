@@ -36,8 +36,8 @@
 					  for(var i = 0; i < list.length; i++){
 						  var html = "<li>";
 						  /****************************************************/
-						  		html += "<a href='bSelect?ch="+ ch1 +"&boardID=";						  
-						  		html += list[i].boardID;
+						  		html += "<a href='bSelect?ch="+ ch1 +"&boardNo=";						  
+						  		html += list[i].boardNo;
 						  		html += "'>";
 						  		html += list[i].boardTitle;
 						  		html += "</a><br>";

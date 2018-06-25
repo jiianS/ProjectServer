@@ -20,9 +20,8 @@
              var html = "";
              for(var i = 0; i < list.length; i++) {
                 html += "<tr><td>";
-                html += list[i].boardID;
-                html += "</td><td><a href='bUpdate?boardID=";
-                html += list[i].boardID;
+				html += "<a href='bUpdate?boardNo=";
+				html += list[i].boardNo;
                 html += "'>";
                 html += list[i].boardTitle;
                 html += "</a></td><td>";
@@ -63,14 +62,14 @@
    <h1>게시글 관리</h1>
 
 	<div>
-		<a href="adList">관리자 페이지</a> <a href="insert">글 작성</a>
+		<a href="admin">관리자 페이지</a>
+		<a href="binsert">글 작성</a>
 		
 	</div>
 	<hr>
 	<table id="list">
       <tr > 
-          <th>boardID</th>
-          <th id="title">제목</th>
+          <th id="title" style="width: 250px">제목</th>
           <th>내용</th>
           <th>boardType</th>
        <th>작성날짜</th>

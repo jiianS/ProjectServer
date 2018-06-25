@@ -17,21 +17,20 @@
 		$(document).ready(function(){
 			var fileData = [];
 			var fileNo = 0;
-			var delData = [];
-			var boardID = "${param.boardID}";
-/* 			if(boardNo == ""){
-				alert("누구세요?");
-				location.href = "/app";
-			}else {} */
+			
+			var boardNo = "${param.boardNo}";
+
 				$.ajax({
 					  type : "post",
 					  url : "bld",
-					  data : {"boardID" : boardID}
+					  data : {"boardNo" : boardNo}
 				  }).done(function(data){
 					  var d = JSON.parse(data)
+					  console.log("data : " + d);
 					  var boardData = d.boardData;
 					  var filesData = d.filesData;
-					  fileData = filesData;
+					  fileData = filesData;		//file데이터들을 담을 변수(배열타입)
+					  
 					  boardHTML(boardData);
 					  filesHTML(filesData);
 				  });
@@ -48,6 +47,8 @@
 					processData: false
 				}).done(function(data) {
 					  var d = JSON.parse(data)
+					  
+					  console.log("data : " + d);
 					  var type = 0;
 					  if(d.upload.length == 0){
 						  d.upload = fileData;
@@ -56,8 +57,8 @@
 						  d.upload[0].fileNo = fileData[0].fileNo;
 						  type = 1;
 					  }
-					  update(d, type);
-				});
+					  update(d, type);	
+				});	
 			});
 			
 			function update(d, type){
@@ -65,7 +66,7 @@
 					  type : "post",
 					  url : "bud",
 					  data : {
-						  "boardID" : boardID,
+						  "boardNo" : boardNo,
 						  "boardTitle" : $("form input").eq(0).val(),
 						  "boardContents" : $("form input").eq(1).val(),
 						  "data" : JSON.stringify(d.upload),
@@ -73,10 +74,12 @@
 					  }
 				  }).done(function(data){
 					  console.log(data);
+					  console.log("type" + type);
+					 
 					  var d = JSON.parse(data);
 					  alert(d.msg);
 					  if(d.status == 1){
-						location.href = "bSelect?ch=b&boardID=" + d.boardID;
+						location.href = "bSelect?ch=b&boardNo=" + d.boardNo;
 					  }
 				  });
 			}

@@ -10,7 +10,11 @@ import javax.servlet.http.HttpSession;
 import org.apache.ibatis.session.SqlSession;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import com.java.jian.dao.DaoInterface;
@@ -39,26 +43,57 @@ public class UserController {
 	DaoInterface di;
 	
 	@RequestMapping("/userInsert")
-	public String	userInsert(HttpServletRequest req) {
-		HashMap<String, Object> param =  HttpUtil.getParamMap(req);
-		
+	public ModelAndView userInsert(HttpServletRequest req) {
+		HashMap<String, Object> param =  HttpUtil.getParamMap(req);		
+		HashMap<String, Object> map = new HashMap<String, Object>();
 		System.out.println("test  __  " +  param);
 		param.put("sqlType", "user.userInsert");
 		param.put("sql", "insert");
 		
 		int status = (int) di.call(param);
 		
-		return "redirect:/";
+		if(status == 1) {
+			map.put("msg", "가입이 완료 되었습니다. 로그인하세요");
+            map.put("status", FinalUtil.OK);
+		}else {
+			map.put("msg", "가입이 되지 않았습니다");
+		}
+		return HttpUtil.makeJsonView(map);
 	}
 	
-	@RequestMapping("/adList")
-	public String	adList() {
-		return "admin/adList";
+	@RequestMapping("/cId")
+	public ModelAndView cId(HttpServletRequest req) {
+		String userId = req.getParameter("checkId");
+		HashMap<String, Object> map = new HashMap<String, Object>();
+		HashMap<String, Object> param =  HttpUtil.getParamMap(req);
+		param.put("userId", userId);
+		param.put("sqlType", "user.checkId");
+		param.put("sql", "selectOne");
+		System.out.println("check!!!!!!!!! " + param);
+		
+		HashMap<String, Object> resultmap =(HashMap<String, Object>) di.call(param);
+		
+		System.out.println("resultMap " + resultmap);
+
+		int status=0;
+		
+		if(resultmap != null) {
+			System.out.println("!!!!!!강가입안대ㅗ");
+			map.put("msg", "이미 있는 아이디입니다.");	
+			map.put("status", FinalUtil.NO);	
+
+
+		}else {
+			System.out.println("가입가능합니다");
+			map.put("msg", "가입 가능합니다.");		
+			map.put("status", FinalUtil.OK);	
+		}
+		return HttpUtil.makeJsonView(map);
 	}
 	
 	//로그인 후 
 	@RequestMapping("/userSelect")
-	public String	userSelect(HttpServletRequest req, RedirectAttributes attr, HttpSession session) {
+	public String userSelect(HttpServletRequest req, RedirectAttributes attr, HttpSession session) {
 		HashMap<String, Object> param =  HttpUtil.getParamMap(req);
 		
 		param.put("sqlType", "user.userSelect");

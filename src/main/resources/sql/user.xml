@@ -17,4 +17,10 @@
 	        and userPassword = #{userPassword}
 	       limit 1
 	</select>
+	
+	<select id="checkId" parameterType="HashMap" resultType="HashMap">
+	   select *
+   		from user WHERE userId=#{userId}
+	</select>
+	
 </mapper>

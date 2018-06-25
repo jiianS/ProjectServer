@@ -12,6 +12,20 @@
 	.btn { width: 185px; height : 50px; }
 	div {align-items: center;}
 	
+	table {
+		margin : 10px 20px;
+	    border-collapse: collapse;
+	    width: 100%;
+	}
+	
+	th, td {
+	    padding: 8px;
+	    text-align: left;
+	    border-bottom: 1px solid #ddd;
+	}
+	
+	tr:hover {background-color:#f5f5f5;}
+	
 	
 </style>
 
@@ -34,11 +48,6 @@
 		</form>
 		<button type="button" class="btn" onclick="location.href='join'">관리자추가</button>
 	</c:if>
-	
-	<c:if test="${sessionScope.user.status == 1}">
-		${sessionScope.user.userId}		
-		<a href="logout">로그아웃</a>
-	</c:if>
 
 	<c:if test="${sessionScope.user.status == 0}">
 		<script>
@@ -51,6 +60,28 @@
 			</form>
 	
 		<button type="button" class="btn" onclick="location.href='join'">관리자추가</button>
+	</c:if>
+	
+		
+	<c:if test="${sessionScope.user.status == 1}">
+		<div style="text-align: right">${sessionScope.user.userId}
+			<a href="logout">로그아웃</a></div><hr>
+		
+		<p>페이지별 관리 가능</p>
+		<div>
+		<ul>
+			<li><a href="/jian/"> 메인 페이지</a></li>
+			<li><a href="boardList">전체 파일 관리하기</a></li>
+			<li><a href="bList?check=sbl">슬라이드 관리하기</a></li>
+			<li><a href="bList?go=detail&check=dld">매덩's Pick</a></li>
+			<li> 서브 페이지</li>
+				<ul>
+					<li><a href="bList?go=london&check=dld">London</a> </li>
+					<li><a href="bList?go=barcelona&check=dld">barcelona</a> </li>
+				</ul>
+			<li><a href="binsert">글 추가해보쟈</a></li>	
+		</ul>
+	</div>
 	</c:if>
 
 

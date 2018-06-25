@@ -26,9 +26,6 @@ public class FileController {
 	@Autowired
 	DaoInterface di;
 	
-
-
-
 	/**subPage 이동 경로**/
 	@RequestMapping("/sub")
 	public String sub() {
@@ -57,8 +54,6 @@ public class FileController {
 		String boardType = req.getParameter("go");
 		
 		HashMap<String, Object> param = new HashMap<String, Object>();
-		
-		
 		param.put("boardType", boardType);		
 		
 		HashMap<String, Object> resultMap = new HashMap<String, Object>();
@@ -82,10 +77,10 @@ public class FileController {
 	//boardID _ 로 board의 내용과 보여줌 _수정/ 삭제 페이지로 갈 수 있음)
 	@RequestMapping("/bld")
 	public ModelAndView bld(HttpServletRequest req) {
-		String boardID = req.getParameter("boardID");
+		String boardNo = req.getParameter("boardNo");
 
 		HashMap<String, Object> param = new HashMap<String, Object>();
-		param.put("boardID", boardID);
+		param.put("boardNo", boardNo);
 		
 		HashMap<String, Object> resultMap = new HashMap<String, Object>();
 
@@ -127,30 +122,29 @@ public class FileController {
 	}
 
 	@RequestMapping("/bUpdate")
-	public String bUpdate(HttpSession session, HttpServletRequest req, RedirectAttributes ra) {
+	public String bUpdate(HttpServletRequest req, RedirectAttributes ra) {
 		HashMap<String, Object> paramMap = HttpUtil.getParamMap(req);
 		paramMap.put("sqlType", "board.boardOne");
 		paramMap.put("sql", "selectOne");
 //		HashMap<String, Object> resultMap = (HashMap<String, Object>) di.call(paramMap);
-		ra.addAttribute("boardID", paramMap.get("boardID"));		
+		ra.addAttribute("boardNo", paramMap.get("boardNo"));		
 		return "board/update";
 	}
 
 	@RequestMapping("/bud")
 	public ModelAndView bud(HttpServletRequest req) {
 		HashMap<String, Object> map = new HashMap<String, Object>();
-		String boardID = req.getParameter("boardID");
+		String boardNo = req.getParameter("boardNo");
 		String boardTitle = req.getParameter("boardTitle");
 		String boardContents = req.getParameter("boardContents");
 		String data = req.getParameter("data");
 		String type = req.getParameter("type");
-//		String delData = req.getParameter("delData");
 		System.out.println(type);
 		
 //		int fileNo = Integer.parseInt(req.getParameter("fileNo"));
 		/***board 내용 추가 및 수정****************************************************************************/
 		HashMap<String, Object> params = new HashMap<String, Object>();
-		params.put("boardID", boardID);
+		params.put("boardNo", boardNo);
 		params.put("boardTitle", boardTitle);
 		params.put("boardContents", boardContents);
 
@@ -173,14 +167,13 @@ public class FileController {
 					params.put("sqlType", "board.filesUpdate");
 					params.put("sql", "update");
 					status = (int) di.call(params);
-					// session.update("board.filesDel", delList.get(i));
 				}
 			}
 			
 			if (status == 1) {
 				map.put("msg", "글수정이 완료 되었습니다.");
 				map.put("status", FinalUtil.OK);
-				map.put("boardID", boardID);
+				map.put("boardNo", boardNo);
 			} else {
 				map.put("msg", "첨부파일 오류 발생.");
 			}
@@ -252,7 +245,7 @@ public class FileController {
 	/***관리자 페이지에서 전체 board리스트 보기********************************************/
 	@RequestMapping("/boardList")
 	public String boardList() {
-		return "admin/allList";
+		return "board/allList";
 	}
 	
 	@RequestMapping("/allList")
@@ -278,14 +271,15 @@ public class FileController {
 	
 	@RequestMapping("/bid")
 	public ModelAndView bid(HttpServletRequest req) {		
-		HashMap<String, Object> map = new HashMap<String, Object>();
 		
+			HashMap<String, Object> map = new HashMap<String, Object>();
+			HashMap<String, Object> params = new HashMap<String, Object>();
+			
 	         int status = 0;
-	         String data = req.getParameter("data");	//사진 파일 가져오는 데이터
-	         
-	         HashMap<String, Object> params = new HashMap<String, Object>();
-	         List<Map<String, Object>> dataList = JSONArray.fromObject(data);
-	         
+	         //업로드시킨 파일 데이터 값을 받아, JSON 타입으로 변환시켜 'dataList'에 담기
+	         String data = req.getParameter("data");	
+	         List<Map<String, Object>> dataList = JSONArray.fromObject(data);    
+	         	         
 	         for(int i = 0; i < dataList.size(); i++) {
 	            String fileName = dataList.get(i).get("fileName").toString();
 	            String fileURL = dataList.get(i).get("fileURL").toString();
@@ -295,11 +289,9 @@ public class FileController {
 	            fileMap.put("fileName", fileName);
 	            fileMap.put("fileURL", FinalUtil.FILE_DNS + fileURL);
 	            fileMap.put("sqlType", "board.fileInsert");
-	            fileMap.put("sql", "insert");
-	            
-	            status = (int) di.call(fileMap);
-	            
-	            System.out.println(status);
+	            fileMap.put("sql", "insert");	            
+	            status = (int) di.call(fileMap);	            
+//	            System.out.println(status);
 	         }
 	         
 	         	//파일 입력이 성공되면
@@ -308,7 +300,7 @@ public class FileController {
 	               params.put("sqlType", "board.getFileNo");
 	               params.put("sql", "selectOne");
 	               int fileNo = (int) di.call(params);
-	               
+	               	               
 	               HashMap<String, Object> boardparams = new HashMap<String, Object>();
 	               String boardTitle = req.getParameter("boardTitle");
 	               String boardContents = req.getParameter("boardContents");
@@ -319,9 +311,8 @@ public class FileController {
 	               boardparams.put("fileNo", fileNo);
 	               boardparams.put("sqlType", "board.boardInsert");
 	               boardparams.put("sql", "insert");
-	               System.out.println(boardparams);
 	               status = (int) di.call(boardparams);
-	               System.out.println(status);
+	    
 	               if(status == 1) {
 	                  map.put("msg", "글작성이 완료 되었습니다.");
 	                  map.put("status", FinalUtil.OK);
@@ -331,7 +322,6 @@ public class FileController {
 	            } else {
 	               map.put("msg", "글 작성 시 오류 발생.");
 	            }
-	            
 	            return HttpUtil.makeJsonView(map);
 	      }
 
