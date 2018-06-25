@@ -9,7 +9,7 @@
 <style>
 	#container {
 		width: 500px;
-		height: 500px;
+
 		padding: 10px 20px;
 	}
 	
@@ -42,7 +42,8 @@
 				type : "post",
 				url : "bld",
 				data : {
-					"boardNo" : boardNo
+					"boardNo" : boardNo,
+					"go" : ch
 				}
 			}).done(function(data) {
 				var d = JSON.parse(data)
@@ -53,7 +54,7 @@
 				boardHTML(boardData);
 				filesHTML(filesData);
 			});//_ boardData_ 리스트 갖고 오기 위한 ajax
-
+		
 		} else if (ch == "s") {
 			$.ajax({
 				type : "post",
@@ -111,21 +112,24 @@
 <body>
 	<div id="container">
 		<h1 id="title"></h1>
-		<div id="tab">
-
   		<c:choose>				
-				<c:when test="${param.ch == 'b'}">
-					<a href="bUpdate?ch=${param.ch}&boardNo=${param.boardNo}">수정</a> 
-					<a href="admin">관리자페이지로</a>
+				<c:when test="${param.ch == 'b'}">	
+					<div style="text-align: right">			
+						<a href="bUpdate?ch=${param.ch}&boardNo=${param.boardNo}">수정</a>
+						<a href="bDel?ch=${param.ch}&boardNo=${param.boardNo}">삭제</a>				 
+						<a href="admin">관리자페이지로</a>
+					</div>	
 				</c:when>
 				
 				<c:when test="${param.ch == 's'}">
-					<a href="fUpdate?fileNo=${param.fileNo}">수정</a>
-					<a href="admin">관리자페이지로</a>
+					<div style="text-align: right">				
+						<a href="fUpdate?fileNo=${param.fileNo}">수정</a>
+						<a href ="main"> 메인 </a>
+						<a href="admin">관리자페이지</a>
+					</div>
 				</c:when>
 			</c:choose> 
-
-		</div>
+					</div>	
 		<hr>
 		<p id="contents"></p>
 		<div id="files"></div>

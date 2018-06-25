@@ -82,8 +82,8 @@
 <body>
 	<h1>detail List</h1>
 	<div> 
-		<a href ="/jian">메인</a><br>
-		<a href ="adList">관리자 목록</a>
+		<a href ="main">메인</a>
+		<a href ="admin">관리자 목록</a>
 	</div>
 	<hr>
 	<ul id="list"></ul>

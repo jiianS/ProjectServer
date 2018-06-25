@@ -8,13 +8,16 @@
 	<meta name="viewport" content="width=device-width, initial-scale=1.0">
 	<title> 매덩여행 </title>
 	<link rel="stylesheet" type="text/css" href="resources/css/index.css">
+	 <link rel="stylesheet" type="text/css"  media="only screen and (max-width: 1200px)" href="resources/css/tab.css">
+
+   <link rel="stylesheet" type="text/css"  media="only screen and (max-width: 670px)" href="resources/css/phone.css">
 	<link rel='shortcut icon' href='resources/icon/send.png'>
 	<script src="https://code.jquery.com/jquery-3.3.1.js"></script>
 
 <script>
-
 	$(document).ready(function() {
-
+		
+		
 		//slide  & btn***********************************************/
 		$.ajax({
 			type : "post",
@@ -77,6 +80,45 @@
 				$("#ul_list").append(html);
 			}
 		}); //ajax.done()
+		
+		
+		// 유투브(매덩's pick)************************************************/
+		$.ajax({
+			type : "post",
+			url : "vlist"
+
+		}).done(function(data) {
+			var d = JSON.parse(data)
+			var list = d.list;
+			console.log("youtube " + d);
+			console.log("youtube " + list);
+
+		
+			$("#ul_list").empty();			
+			var html = "<h1>매덩's youtube</h1><hr><iframe src='https://www.youtube.com/embed/";
+			html += list[0].vUrl;
+			html += "' frameborder='0' allow='autoplay; encrypted-media' allowfullscreen></iframe>";
+			
+			$("#v_div1").append(html);
+			for (var i = 1; i < list.length; i++) {
+				/***youtube List************************************************/
+				var html2 = " <li class='v_m_l'>";
+				html2 += "<iframe src='https://www.youtube.com/embed/";
+				html2 += list[i].vUrl;
+				html2 += "'frameborder='0' allow='autoplay; encrypted-media' allowfullscreen></iframe>";
+				html2 += "<div class='v_m_r'> <h1>" ;
+				html2 += list[i].vTitle;
+				html2 += "</h1> <p>" + list[i].vContents +"</p>" ;
+				html2 += "<ul> <li id ='tooltip' class='v_heart v_icon'><span class='tooltiptext'>최고예요</span></li>";
+				html2 += "<li>" + list[i].bestNum; + "</li>";
+				html2 += "<li id ='tooltip' class='v_thumb v_icon'><span class='tooltiptext'>좋아요</span></li>";
+				html2 += "<li>" + list[i].likeNum; + "</li>"
+				html2 += "<li class='v_share v_icon'></li> <li class='v_li_r'>공유</li></ul></div>";
+					
+				$("#v_ul_List").append(html2);
+			}
+		}); //ajax.done()
+		
 		
 	}); //document.ready
 
@@ -169,7 +211,6 @@
 				<a href="bList?check=sbl">수정</a>
 			</span>
 		</c:if>
-
 		<section id="s"></section>    
 	    <section id="b">
 	        <div>
@@ -183,89 +224,22 @@
 	    
 	    <!--유투브 리스트-->  
 	    <section id="v">
-	        <div id="v_div1">  
-	           <h1>매덩's youtube</h1> <hr>
-	            <iframe src="https://www.youtube.com/embed/vjj3opBmJ9w" frameborder="0" allow="autoplay; encrypted-media" allowfullscreen></iframe> 
-	        </div>
-	        
-	        <!--영상 리스트 -->
-	        <div id="v_div2" >
-	            
-	            <div id="v_icon">
-	                <div id="icon2">
-	                <img src="resources/icon/playlist_add.svg" id="i_p">
-	               </div>
-	            </div>
-	                      
-	             <div id="v_m">
-	                <ul>
-	                    <li class="v_m_l">
-	                       <iframe src="https://www.youtube.com/embed/slnquW49Zwk" frameborder="0" allow="autoplay; encrypted-media" allowfullscreen></iframe>
-	                        <div class="v_m_r">
-	                            <h1>괌</h1>
-	                            <p>괌에서 꼭 해야할 10가지</p>
-	                            <ul>
-	                                <li id = "tooltip" class="v_heart v_icon"><span class="tooltiptext">최고예요</span></li>
-	                                <li>3,737</li>
-	                                <li id = "tooltip" class="v_thumb v_icon"><span class="tooltiptext">좋아요</span></li>
-	                                <li>40</li>
-	                                <li class="v_share v_icon"></li>
-	                                <li class="v_li_r">공유</li>
-	                            </ul>
-	                        </div>
-	                    </li>
-	                    
-	                    <li class="v_m_l">
-	                        <iframe src="https://www.youtube.com/embed/cl42CcXQB7E" frameborder="0" allow="autoplay; encrypted-media" allowfullscreen></iframe>
-	                        <div class="v_m_r">
-	                            <h1>이탈리아 남부</h1>
-	                            <p>남부에서 꼭 해야할 10가지</p>
-	                            <ul>
-	                                <li id = "tooltip" class="v_heart v_icon"><span class="tooltiptext">최고예요</span></li>
-	                                <li>4,500</li>
-	                                <li id = "tooltip" class="v_thumb v_icon"><span class="tooltiptext">좋아요</span></li>
-	                                <li>25</li>
-	                                <li class="v_share v_icon"></li>
-	                                <li class="v_li_r">공유</li>
-	                            </ul>
-	                        </div>
-	                    </li>
-	                    <li class="v_m_l">
-	                        <iframe src="https://www.youtube.com/embed/htrWV4GYNDI" frameborder="0" allow="autoplay; encrypted-media" allowfullscreen></iframe>
-	                        <div class="v_m_r">
-	                            <h1>그리스</h1>
-	                            <p>그리스에서 해야할 10가지</p>
-	                            <ul>
-	                               <li id = "tooltip" class="v_heart v_icon"><span class="tooltiptext">최고예요</span></li>
-	                                <li>1,552</li>
-	                                <li id = "tooltip" class="v_thumb v_icon"><span class="tooltiptext">좋아요</span></li>
-	                                <li>30</li>
-	                                <li class="v_share v_icon"></li>
-	                                <li class="v_li_r">공유</li>
-	                            </ul>
-	                        </div>
-	                    </li>
-	                    
-	                    <li class="v_m_l">
-	                        <iframe src="https://www.youtube.com/embed/y1-qAvF0_Xc" frameborder="0" allow="autoplay; encrypted-media" allowfullscreen></iframe>
-	                        <div class="v_m_r">
-	                            <h1>바르셀로나</h1>
-	                            <p>바르셀로나에서 해야할 15가지</p>
-	                            <ul>
-	                               <li id = "tooltip" class="v_heart v_icon"><span class="tooltiptext">최고예요</span></li>
-	                                <li>6,705</li>
-	                                <li id = "tooltip" class="v_thumb v_icon"><span class="tooltiptext">좋아요</span></li>
-	                                <li>240</li>
-	                                <li class="v_share v_icon"></li>
-	                                <li class="v_li_r">공유</li>
-	                            </ul>
-	                        </div>
-	                    </li>
-	                    
-	                </ul>
-	            </div>
-	            </div>
-	    </section>
+			<div id='v_div1'>				
+			</div>
+
+			<div id="v_div2">
+				<div id="v_icon">
+				<div id="icon2">
+					<img src="resources/icon/playlist_add.svg" id="i_p">
+				</div>
+				</div>
+			
+				<div id="v_m">
+					<ul id ="v_ul_List"> </ul>
+				</div>
+			</div>
+			
+		</section>
 	    
 	 <!--여행지 리스트(매덩's Pick)-->
 	<section id="l">
@@ -290,14 +264,11 @@
     <footer>
         <div id= "comment" >
             <h4>
-                전 세계 우리의 여행 사이트. 풍부한 정보.즐거운 여행    
-            
+          	      전 세계 우리의 여행 사이트. 풍부한 정보.즐거운 여행    
              <div>
-            	
                 <div id="face"  class="co_icon"onclick="location.href='https://ko-kr.facebook.com/dingo.travel.kr/'"></div>
                 <div id="insta" class="co_icon" onclick="location.href='https://www.instagram.com/dingo_travel/'" ></div>
                 <div id="twitt" class="co_icon"onclick="location.href='https://twitter.com/myrealtrip'"></div>
-            
             </div>
             </h4>
             

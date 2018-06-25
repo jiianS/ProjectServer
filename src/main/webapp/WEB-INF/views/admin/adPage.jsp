@@ -50,9 +50,7 @@
 	</c:if>
 
 	<c:if test="${sessionScope.user.status == 0}">
-		<script>
-			alert("로그인한 계정은 가입이 되어 있지않습니다.");			
-		</script>
+
 		<form action="userSelect" method="post">
 			<input type="text"    name="userId"       placeholder="아이디를 입력하세요."   maxlength="100" required="required"><br>
 			<input type="password" name="userPassword" placeholder="비밀번호를 입력하세요." maxlength="10"  required="required"><br>
@@ -83,8 +81,6 @@
 		</ul>
 	</div>
 	</c:if>
-
-
 
 </body>
 </html>

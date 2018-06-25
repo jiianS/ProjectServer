@@ -41,12 +41,27 @@ public class FileController {
 		param.put("sql","selectList");
 		
 		List list = (List) di.call(param);	
+		resultMap.put("list",list); 	
+//		System.out.println(resultMap);
+		return HttpUtil.makeJsonView(resultMap);
+	}
+	
+	/**여행지 리스트 *********************************************/
+	@RequestMapping("/vlist")
+	public ModelAndView vlist(HttpServletRequest req) {
+
+		HashMap<String, Object> param = new HashMap<String, Object>();
+
+		HashMap<String, Object> resultMap = new HashMap<String, Object>();
+		param.put("sqlType", "board.youtubeList");
+		param.put("sql","selectList");
+		
+		List list = (List) di.call(param);	
 		resultMap.put("list",list); 
 	
 //		System.out.println(resultMap);
 		return HttpUtil.makeJsonView(resultMap);
 	}
-	
 	
 	/**여행지 리스트 *********************************************/
 	@RequestMapping("/dld")
@@ -71,10 +86,10 @@ public class FileController {
 	/**수정하기 위한 리스트 화면******************************************/
 	@RequestMapping("/bList")
 	public String bList() {
-		return "board/list";
+		return "/board/list";
 	}
 	
-	//boardID _ 로 board의 내용과 보여줌 _수정/ 삭제 페이지로 갈 수 있음)
+	//(리스트 보여주고 _수정/ 삭제 페이지로 갈 수 있음)
 	@RequestMapping("/bld")
 	public ModelAndView bld(HttpServletRequest req) {
 		String boardNo = req.getParameter("boardNo");
@@ -118,7 +133,7 @@ public class FileController {
 	/**수정*********************************************/
 	@RequestMapping("/bSelect")
 	public String bSelect() {
-		return "board/detail";
+		return "/board/detail";
 	}
 
 	@RequestMapping("/bUpdate")
@@ -128,7 +143,7 @@ public class FileController {
 		paramMap.put("sql", "selectOne");
 //		HashMap<String, Object> resultMap = (HashMap<String, Object>) di.call(paramMap);
 		ra.addAttribute("boardNo", paramMap.get("boardNo"));		
-		return "board/update";
+		return "/board/update";
 	}
 
 	@RequestMapping("/bud")
@@ -221,14 +236,11 @@ public class FileController {
 				params.put("sqlType", "board.filesUpdate");
 				params.put("sql", "update");
 				
-				
 				System.out.println("params : "+ params);
 				
-				status = (int)di.call(params);
-				
-				System.out.println(status);
-				
-				// session.update("board.filesDel", delList.get(i));
+				status = (int)di.call(params);				
+//				System.out.println(status);
+//				session.update("board.filesDel", delList.get(i));
 			}
 			
 			if (status == 1) {
@@ -245,7 +257,7 @@ public class FileController {
 	/***관리자 페이지에서 전체 board리스트 보기********************************************/
 	@RequestMapping("/boardList")
 	public String boardList() {
-		return "board/allList";
+		return "/board/allList";
 	}
 	
 	@RequestMapping("/allList")
@@ -266,7 +278,7 @@ public class FileController {
 	
 	@RequestMapping("/binsert")
 	public String binsert() {
-		return "board/insert";
+		return "/board/insert";
 	}
 	
 	@RequestMapping("/bid")
@@ -324,6 +336,27 @@ public class FileController {
 	            }
 	            return HttpUtil.makeJsonView(map);
 	      }
+	
+	@RequestMapping("/bDel")
+	public String bDel(HttpServletRequest req) {
+		String boardNo = req.getParameter("boardNo");
+		String boardType = req.getParameter("go");
+		HashMap<String, Object> param = new HashMap<String, Object>();
+		param.put("boardNo", boardNo);
+
+		param.put("sqlType", "board.boardDel");
+		param.put("sql", "update");
+		int status1 = (int) di.call(param);
+		System.out.println(status1);
+		
+		param.put("sqlType", "board.filesBoardDel");
+		param.put("sql", "update");
+		int status2 = (int) di.call(param);
+		System.out.println(status2);
+		
+
+		return "redirect:/main";
+	}
 
 	
 }

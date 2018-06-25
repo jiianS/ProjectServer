@@ -27,7 +27,7 @@ public class UserController {
 
 	@RequestMapping("/admin")
 	public String	admin() {
-		return "admin/login";
+		return "admin/adPage";
 	}
 	@RequestMapping("/join")
 	public String	join() {
@@ -36,7 +36,7 @@ public class UserController {
 	@RequestMapping("/logout")
 	public String	logout(HttpSession session) {
 		session.invalidate();
-		return "redirect:/";
+		return "redirect:/main";
 	}
 	
 	@Autowired
@@ -104,15 +104,17 @@ public class UserController {
 		if(resultMap == null) {
 			resultMap = new HashMap<String, Object>();
 			resultMap.put("status",FinalUtil.NO);
+			resultMap.put("msg",FinalUtil.NO);
 		}else {
-			resultMap.put("status", FinalUtil.OK);		
+			resultMap.put("status", FinalUtil.OK);
+			resultMap.put("msg",FinalUtil.NO);
 		}
 		
 		session.setAttribute("user", resultMap);
 		
 //		attr.addFlashAttribute("data", resultMap);
 		
-		return "redirect:/";
+		return "redirect:/main";
 	}
-	
+
 }

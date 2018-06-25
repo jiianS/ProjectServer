@@ -34,7 +34,9 @@
 		select * from files,board2
 		where
 		files.fileNo=board2.fileNo and 
-		board2.fileNo in (select fileNo from board2 where boardType = #{boardType});
+		board2.fileNo in (
+		select fileNo from board2 where boardType = #{boardType}
+		and delYn = 'N');
 	</select>
 	
 	
@@ -97,5 +99,24 @@
       (#{boardTitle},#{boardContents},DATE_FORMAT(NOW(),'%Y%m%d'),#{boardType}, #{fileNo});
   </insert>
 
+
+	<select id="youtubeList" parameterType="HashMap"
+		resultType="HashMap">
+		select * from youtube ;
+	</select>
+ 
+ 
+ 	<update id="boardDel" parameterType="HashMap">
+		update board2
+		set delYn = 'Y'
+		where boardNo = #{boardNo}
+	</update>
+	
+ <update id="filesBoardDel" parameterType="HashMap">
+   update files, board2
+   set files.delYn = 'Y'
+   where files.fileNo = board2.fileNo 
+   and files.fileNo in ( select fileNo from board2 where boardNo = #{boardNo})
+   </update>
 	
 </mapper>
