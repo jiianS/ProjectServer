@@ -9,7 +9,7 @@
 	<bean id="dataSource"
 		class="org.springframework.jdbc.datasource.DriverManagerDataSource">
 		<property name="url"
-			value="jdbc:mysql://192.168.1.32:3306/kja" />
+			value="jdbc:mysql://127.0.0.1:3306/test" />
 		<property name="driverClassName"
 			value="org.mariadb.jdbc.Driver" />
 		<property name="username" value="jian" />

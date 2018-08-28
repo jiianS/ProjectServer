@@ -8,9 +8,8 @@
 	<meta name="viewport" content="width=device-width, initial-scale=1.0">
 	<title> 매덩여행 </title>
 	<link rel="stylesheet" type="text/css" href="resources/css/index.css">
-	 <link rel="stylesheet" type="text/css"  media="only screen and (max-width: 1200px)" href="resources/css/tab.css">
-
-   <link rel="stylesheet" type="text/css"  media="only screen and (max-width: 670px)" href="resources/css/phone.css">
+	<link rel="stylesheet" type="text/css"  media="only screen and (max-width: 1200px)" href="resources/css/tab.css">
+    <link rel="stylesheet" type="text/css"  media="only screen and (max-width: 670px)" href="resources/css/phone.css">
 	<link rel='shortcut icon' href='resources/icon/send.png'>
 	<script src="https://code.jquery.com/jquery-3.3.1.js"></script>
 
